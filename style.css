@@ -1,0 +1,55 @@
+
+
+.input-data{
+    display:grid;
+    margin-bottom: 30px;
+}
+
+.input-data{
+    width: 100px;
+}
+
+
+
+/* days header */
+.days-header{
+    margin-bottom: 30px;
+}
+.days-header span{
+    border: 1px solid black;
+    padding: 5px;
+}
+
+/*------------------------------------------------
+Calendar Styles
+-------------------------------------------------*/
+.main {
+width:200px;
+border:1px solid black;
+}
+
+.month {
+background-color:black;
+font:bold 12px verdana;
+color:white;
+}
+
+.daysofweek {
+background-color:gray;
+font:bold 12px verdana;
+color:white;
+}
+
+.days {
+font-size: 12px;
+font-family:verdana;
+color:black;
+background-color: lightyellow;
+padding: 2px;
+}
+
+.days #today{
+font-weight: bold;
+color: red;
+}
+

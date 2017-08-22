@@ -2,27 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <script src="script.js" type="text/javascript"></script>
+    
+    <link rel="stylesheet" href="style.css">
     <title>Prosoft test</title>
 </head>
 <body>
-   <h1>Prosoft exercise</h1>
+   <h1>Web Calendar - exercise</h1>
    <div class="input-data">
       <span>
           <label>Start date:</label>
-           <input type="date">
+           <input type="date" id="date">
       </span>
        <span>
           <label>Number of days:</label>
-           <input type="number">
+           <input type="number" id="numberOfDays">
       </span>
       <span>
           <label>Country Code:</label>
-           <input type="text">
+           <input type="text" id="countryCode">
       </span>
+      <input type="button" id="btn-generate" value="Generate">
    </div>
-   
-   <div>
+   <br>
+   <div class="display-calendar">
        <script type="text/javascript">
 
 var todaydate=new Date()
@@ -31,10 +33,10 @@ var curyear=todaydate.getFullYear() //get current year
 
 
 
-document.write(buildCal(curmonth ,curyear, 1));
+//document.write(buildCal(curmonth ,curyear, 1));
 </script>
    </div>
    
-    
+    <script src="script.js" type="text/javascript"></script>
 </body>
 </html>
