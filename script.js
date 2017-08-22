@@ -72,7 +72,7 @@
 
 
     function drawCalendar(inputDate, daystoDraw) {
-
+        var style = "weekdays";
         
         var month = inputDate.getMonth();
         var year = inputDate.getFullYear();
@@ -81,13 +81,14 @@
         var initialDayToDraw = getInitialDayToDraw(inputDate);
         
         var cellValue;
-        var t = '<div><table cols="7" cellpadding="0" cellspacing="0"><tr align="center">';
+        var t = '<div><table cols="7" cellpadding="0" cellspacing="0" class="month-container"><tr align="center" class="daysofweek">';
 
-        t += '<td colspan="7" align="center" >' + monthsArray[month] + ' - ' + year + '</td></tr><tr align="center">';
+        for (s = 0; s < 7; s++) t += '<td class="day-label">' + "SMTWTFS".substr(s, 1) + '</td>';
 
         t += '</tr><tr align="center">';
 
-        for (s = 0; s < 7; s++) t += '<td class="daysofweek">' + "SMTWTFS".substr(s, 1) + '</td>';
+        
+        t += '<td colspan="7" align="center" class="month-label">' + monthsArray[month] + ' - ' + year + '</td></tr><tr align="center">';
         t += '</tr><tr align="center">';
 
 
@@ -101,52 +102,33 @@
                 cellValue = initialDayToDraw;
                 daystoDraw--;
                 initialDayToDraw++;
+                style = ((i) % 7 == 0) || ((i-1) % 7 == 0) ? "weekend" : "weekdays";
             } else {
                 cellValue = '&nbsp;';
+                style = "invalid-day";
             }
 
             //= ((i > dayToStart) && (i <= monthDimension) ) ? i : '&nbsp;';
+            
+            
 
-            t += '<td class="days">' + cellValue + '</td>';
+            t += '<td class="'+style+'">' + cellValue + '</td>';
 
             if ((i) % 7 == 0)
                 t += '</tr><tr align="center">';
 
         }
-
-
-        // For that draws the calendar
-        /* for (i = dayToStart; i <= 42; i++) {
-
-
-             if (x === '&nbsp;' && (i > inputDate.monthStart) && limitDayToDraw.indexOf(i) > -1) {
-                 console.log(i);
-                 break;
-             }
-
-
-             var x = ((i - inputDate.monthStart >= 0) &&
-                 (i - inputDate.monthStart < dim[currentMonth - 1])) ? i - inputDate.monthStart + 1 : '&nbsp;';
-
-             //if (x == scanfortoday) //DD added
-             //    x = '<span id="today">' + x + '</span>' //DD added
-
-             t += '<td class="' + days + '">' + x + '</td>';
-
-             if ((i) % 7 == 0)
-                 t += '</tr><tr align="center">';
-
-
-         }
-         return t += '</tr></table></div>';*/
+        t += '</tr></table></div>';
+        
         document.querySelector(".display-calendar").insertAdjacentHTML("beforeend", t);
+        
         if(daystoDraw > 0){
             var nextMonth = month === 11 ? 1 : month + 1;
             var year = nextMonth === 1 ? year + 1 : year;
             
             var d = new Date(year,nextMonth,01);
             
-            drawCalendar(d, daystoDraw)
+            drawCalendar(d, daystoDraw);
         }
     }
      

@@ -1,55 +1,89 @@
-
-
-.input-data{
-    display:grid;
-    margin-bottom: 30px;
+html,body{
+    width: 100%;
 }
 
-.input-data{
+.input-data {
+    display: grid;
+    margin-bottom: 30px;
+    border: 1px solid red;
+    width: 30%;
+}
+
+.input-data > input {
     width: 100px;
 }
 
+.input-data > input:last-child {
+    margin-top: 20px;
+}
 
 
 /* days header */
-.days-header{
+
+.days-header {
     margin-bottom: 30px;
 }
-.days-header span{
+
+.days-header span {
     border: 1px solid black;
     padding: 5px;
 }
 
+
 /*------------------------------------------------
 Calendar Styles
 -------------------------------------------------*/
-.main {
-width:200px;
-border:1px solid black;
+
+.month-container {
+    width: 300px;
+    border: 1px solid black;
+    margin-bottom: 10px;
 }
 
-.month {
-background-color:black;
-font:bold 12px verdana;
-color:white;
+.month-container td {
+    border: 1px solid #c7e2c7;
+    line-height: 25px;
+    min-width: 35px;
 }
 
-.daysofweek {
-background-color:gray;
-font:bold 12px verdana;
-color:white;
+.month-label {
+    background-color: #c7e2c7;
+    font: bold 14px verdana sans-serif;
+    color: black;
 }
 
-.days {
-font-size: 12px;
-font-family:verdana;
-color:black;
-background-color: lightyellow;
-padding: 2px;
+.month-container .daysofweek .day-label {
+    background-color: white;
+    font: bold 12px verdana;
+    border: none;
+    line-height: 25px;
 }
 
-.days #today{
-font-weight: bold;
-color: red;
+/*.month-container .daysofweek:first-child{
+    
 }
 
+.month-container .daysofweek{
+    display: none;
+}*/
+
+.weekdays {
+    font-size: 12px;
+    font-family: verdana;
+    color: black;
+    background-color: #4cb24c;
+    padding: 2px;
+}
+
+.weekdays #today {
+    font-weight: bold;
+    color: red;
+}
+
+.weekend {
+    background-color: yellow;
+}
+
+.invalid-day {
+    background-color: #b4b2b2;
+}
