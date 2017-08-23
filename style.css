@@ -1,22 +1,55 @@
-html,body{
-    width: 100%;
+/* generic styling */
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
+html {
+  text-align: center;
+}
+
+body{
+    width: 100%;
+    
+}
+
+.general-container{
+    width: 80%;
+    margin: 0px auto;
+}
+
+/* title */
+
+h1{
+    margin: 20px 0px;
+    background-color: lightblue;
+}
+
+.content{
+    display: -webkit-box;
+}
+/* Input data box */
+
 .input-data {
-    display: grid;
     margin-bottom: 30px;
     border: 1px solid red;
     width: 30%;
+    padding: 10px;
 }
 
-.input-data > input {
-    width: 100px;
+.input-data label{
+    float: left;
+}
+.input-data input{
+    width: 100%;
+    margin-bottom: 10px;
 }
 
-.input-data > input:last-child {
-    margin-top: 20px;
+input[type=text]{
+    text-transform:uppercase;
 }
-
 
 /* days header */
 
@@ -33,6 +66,10 @@ html,body{
 /*------------------------------------------------
 Calendar Styles
 -------------------------------------------------*/
+.display-calendar{
+    width: 65%;
+    text-align: -webkit-center;
+}
 
 .month-container {
     width: 300px;
