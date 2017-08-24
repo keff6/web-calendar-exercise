@@ -1,18 +1,46 @@
-// main function
-(function (win, doc) {
+/*---------------------------------------------------------------------------------------
+                                    ModelController     
+/*---------------------------------------------------------------------------------------*/
+var ModelController = (function () {
 
     const monthsArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        limitDraw = [8, 15, 22, 28, 36, 43],
-        DOM_countryCode = doc.getElementById("countryCode"),
-        DOM_dateSelected = doc.getElementById("date"),
-        DOM_numberOfDays = doc.getElementById("numberOfDays");
+        limitDraw = [8, 15, 22, 28, 36, 43];
 
     var monthDimension = [31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    var data = [];
+    var data = {
+        htmlToDraw: ""
+    };
 
+
+    // Consumes REST api synchronous
+    function getMonthHolidays(y, m, c) {
+
+        var APIurl = "https://holidayapi.com/v1/holidays?country=" + c + "&year=" + y + "&month=" + m + "&key=d7067658-2852-4cb4-b0df-56daac7cbf80";
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', APIurl, false);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    try {
+                        data = JSON.parse(xhr.response);
+                    } catch (e) {
+                        alert(e.toString());
+                    }
+                } else {
+                    console.log("Error", xhr.statusText);
+                }
+            }
+        }
+
+        xhr.onerror = function (e) {
+            console.error(xhr.statusText);
+        };
+
+        xhr.send(null);
+    }
 
     function getMonthDays(month, year) {
-
         var totDays = -1;
         if (month === 1) {
             totDays = (((year % 100 != 0) &&
@@ -36,55 +64,18 @@
         return day;
     }
 
-    function getMonthHolidays(y, m, c) {
-
-        //var APIurl = "https://holidayapi.com/v1/holidays?country=" + c + "&year=" + y + "&month=" + m;
-
-        var APIurl = "https://holidayapi.com/v1/holidays?country=" + c + "&year=" + y + "&month=" + m + "&key=d7067658-2852-4cb4-b0df-56daac7cbf80";
-
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', APIurl, false);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4) {
-                if (xhr.status == 200) {
-                    try {
-                        data = JSON.parse(xhr.response);
-                    } catch (e) {
-                        alert(e.toString());
-                    }
-                } else {
-                    alert(xhr.statusText);
-                }
-
-
-                /*
-                200Success! Everything is A-OK
-400Something is wrong on your end
-401Unauthorized (did you remember your API key?)
-402Payment required (only historical data available is free)
-403Forbidden (this API is HTTPS-only)
-429Rate limit exceeded
-500OH NOES!!~! Something is wrong on our end
-                */
-            }
-        }
-
-        xhr.send(null);
-    }
-
-
     function isHoliday(d) {
-
         for (var i = 0; i < data.holidays.length; i++) {
             if (data.holidays[i].date.split("-")[2] == d)
                 return data.holidays[i].name;
         }
-
         return false;
     }
 
 
-    function drawCalendar(inputDate, daystoDraw, countryCode) {
+    // Draw Calendar
+    function generateCalendarHTML(inputDate, daystoDraw, countryCode, htmlText) {
+
 
         var month = inputDate.getMonth(),
             year = inputDate.getFullYear(),
@@ -99,7 +90,7 @@
         getMonthHolidays(year, month);
 
 
-        htmlText = '<div><table cols="7" cellpadding="0" cellspacing="0" class="month-container"><tr align="center" class="daysofweek">';
+        htmlText += '<div><table cols="7" cellpadding="0" cellspacing="0" class="month-container"><tr align="center" class="daysofweek">';
 
         // Calendar days labe header
         for (var s = 0; s < 7; s++) htmlText += '<td class="day-label">' + "SMTWTFS".substr(s, 1) + '</td>';
@@ -107,10 +98,7 @@
         htmlText += rowClosing;
 
         // Month name header
-        htmlText += '<td colspan="7" align="center" class="month-label">' + monthsArray[month] + ' - ' + year + '</td></tr><tr align="center">';
-
-        htmlText += rowClosing;
-
+        htmlText += '<td colspan="7" align="center" class="month-label">' + monthsArray[month] + ' - ' + year + '</td></tr><tr align="center">' + rowClosing;
 
         // Days draw
         for (i = 1; i <= 42; i++) {
@@ -119,7 +107,6 @@
             if (cellValue === '&nbsp;' && (i > initialDayMonth) && limitDraw.indexOf(i) > -1) {
                 break;
             }
-
 
             if ((i >= initialDayMonth) &&
                 (initialDayToDraw <= getMonthDays(month, year)) &&
@@ -157,26 +144,53 @@
         }
         htmlText += '</tr></table></div>';
 
-        //insert the calendar into html
-        doc.querySelector(".display-calendar").insertAdjacentHTML("beforeend", htmlText);
-
         // If there are days to draw left, then call drawCalendar recursively
         if (daystoDraw > 0) {
             var nextMonth = month === 11 ? 0 : month + 1,
                 year = nextMonth === 1 ? year + 1 : year,
                 d = new Date(year, nextMonth, 01);
 
-            drawCalendar(d, daystoDraw, countryCode);
+            generateCalendarHTML(d, daystoDraw, countryCode, htmlText);
+        } else {
+            data.htmlToDraw = htmlText;
         }
     }
+
+    function getHtml() {
+        return data.htmlToDraw;
+    }
+
+    return {
+        generateCalendarHTML: generateCalendarHTML,
+        getHtml: getHtml
+    }
+})();
+
+/*---------------------------------------------------------------------------------------
+                                        UIController     
+/*---------------------------------------------------------------------------------------*/
+var UIController = (function (doc) {
+
+    var DOM_countryCode = doc.getElementById("countryCode"),
+        DOM_dateSelected = doc.getElementById("date"),
+        DOM_numberOfDays = doc.getElementById("numberOfDays"),
+        DOM_displayCalendar = ".display-calendar",
+        DOM_warningContainer = ".warning-container";
+
+
+    function drawCalendar(htmlText) {
+        //insert the calendar into html
+        doc.querySelector(DOM_displayCalendar).insertAdjacentHTML("beforeend", htmlText);
+    }
+
 
     function clearPage() {
 
         /*numberOfDays.value = "";
         countryCode.value = "";
         dateSelected.value = "";*/
-        
-        var elem = doc.querySelector(".display-calendar");
+
+        var elem = doc.querySelector(DOM_displayCalendar);
         elem.innerHTML = "";
         return false;
     }
@@ -185,51 +199,94 @@
 
         var isValid = true;
         var message = "";
-        
-        if(!DOM_numberOfDays.checkValidity()){
-            message += "<p>You have to enter a valid number of days.<p>"
+
+        if (!DOM_numberOfDays.checkValidity()) {
+            message += "<p>You have to enter a valid number of days.</p>"
         }
-        if(!DOM_countryCode.checkValidity()){
-            message += "<p>You have to enter a valid Country code.<p>"
+        if (!DOM_countryCode.checkValidity()) {
+            message += "<p>You have to enter a valid country code.</p>"
         }
-        if(!DOM_dateSelected.checkValidity()){
-            message += "<p>You have to enter a valid date.<p>"
+        if (!DOM_dateSelected.checkValidity()) {
+            message += "<p>You have to enter a valid date.</p>"
         }
-        
-        if(message.length > 0){
+
+        if (message.length > 0) {
             isValid = false;
-            doc.querySelector(".warning-container").innerHTML = message;
-            
-            doc.querySelector(".warning-container").style.display = "block";
-        }else{
-            doc.querySelector(".warning-container").style.display = "none";
+            doc.querySelector(DOM_warningContainer).innerHTML = message;
+
+            doc.querySelector(DOM_warningContainer).style.display = "block";
+        } else {
+            doc.querySelector(DOM_warningContainer).style.display = "none";
         }
-        
+
         return isValid;
     }
 
-    win.onload = function () {
+    function getInput() {
+        var date = DOM_dateSelected.value,
+            inputsDate = new Date(date);
 
-        var btnGenerate = doc.getElementById("btn-generate");
+        inputsDate.setDate(inputsDate.getDate() + 1)
 
-        btnGenerate.addEventListener("click", function () {            
+        return {
+            numberOfDays: DOM_numberOfDays.value,
+            countryCode: DOM_countryCode.value,
+            inputDate: inputsDate
+        }
+    }
 
-            clearPage();
-            
-            if (validateInput()) {               
-                
-                var date = DOM_dateSelected.value,
-                    numberOfDays = DOM_numberOfDays.value,
-                    countryCode = DOM_countryCode.value,
-                    inputDate = new Date(date);
+    return {
+        clearPage: clearPage,
+        getInput: getInput,
+        validateInput: validateInput,
+        drawCalendar: drawCalendar
+    }
 
-                inputDate.setDate(inputDate.getDate() + 1);
+})(document);
 
-                drawCalendar(inputDate, numberOfDays, countryCode);
+/*---------------------------------------------------------------------------------------
+                                        AppController     
+/*---------------------------------------------------------------------------------------*/
+var AppController = (function (win, doc, ModelController, UIController) {
+
+    var setupEventListeners = function () {
+        //var DOM = UIController.getDOMStrings();        
+
+        document.addEventListener("keypress", function (event) {
+            if (event.keyCode === 13 || event.which === 13) {
+                GenerateCalendar();
             }
+        });
 
+        doc.getElementById("btn-generate").addEventListener("click", function () {
+            GenerateCalendar();
         });
     }
 
+    function GenerateCalendar() {
+        UIController.clearPage();
 
-})(window, document);
+        if (UIController.validateInput()) {
+
+            // 1- Get input
+            var input = UIController.getInput();
+
+            // 2- Generate the html for the calendars
+            ModelController.generateCalendarHTML(input.inputDate, input.numberOfDays, input.countryCode, "");
+
+            // 3- Display the calendars
+            UIController.drawCalendar(ModelController.getHtml());
+        }
+    }
+
+    return {
+        init: function () {
+            console.log("app started");
+            setupEventListeners();
+        }
+    }
+
+
+})(window, document, ModelController, UIController);
+
+AppController.init();

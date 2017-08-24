@@ -1,4 +1,6 @@
-/* generic styling */
+/* --------------------------------------------------------------------------
+                                 generic styling                             
+-----------------------------------------------------------------------------*/
 * {
     margin: 0;
     padding: 0;
@@ -24,7 +26,12 @@ body{
     margin: 0px auto;
 }
 
-/* title */
+.content{
+    display: -webkit-box;
+    background-color: #e8ffe4;
+}
+
+/* ------------------ title / footer ----------------------*/
 
 h1,footer{
     margin: 20px 0px;
@@ -32,13 +39,9 @@ h1,footer{
     color:white;
 }
 
-
-.content{
-    display: -webkit-box;
-    background-color: #e8ffe4;
-}
-/* Input data box */
-
+/* --------------------------------------------------------------------------
+                                 Input data box                             
+-----------------------------------------------------------------------------*/
 .input-data {
     margin-bottom: 30px;
     border: 1px solid #5dff3f;
@@ -52,6 +55,7 @@ h1,footer{
 .input-data label{
     float: left;
 }
+
 .input-data input{
     width: 100%;
     margin-bottom: 10px;
@@ -67,24 +71,7 @@ input{
     box-sizing: border-box;
 }
 
-input[type=text]{
-    text-transform:uppercase;
-}
-
 input[type=button]{
-    line-height: 25px;
-    color: rgb(255, 155, 21);
-    background-color: rgba(58, 252, 0, 0.24);
-    border-radius: 15px;
-    padding: 5px;
-    width: 150px;
-    border: 2px solid rgb(216, 124, 0);
-    font-weight: 900;
-} 
-
-
-
-input[type=button]:hover{
     line-height: 25px;
     color: white;
     background-color: rgb(216, 124, 0);
@@ -95,7 +82,25 @@ input[type=button]:hover{
     font-weight: 900;
 } 
 
-/* days header */
+input[type=button]:hover{
+    background-color: rgb(165, 92, 7);  
+} 
+
+input[type=text]{
+    text-transform:uppercase;
+}
+
+/* --------------------------------------------------------------------------
+                                 Calendar Styles                             
+-----------------------------------------------------------------------------*/
+.display-calendar{
+    width: 70%;
+    text-align: -webkit-center;
+    text-align: -moz-center;
+    height: 80vh;
+    overflow-y: scroll;
+    overflow:auto;
+}
 
 .days-header {
     margin-bottom: 30px;
@@ -104,19 +109,6 @@ input[type=button]:hover{
 .days-header span {
     border: 1px solid black;
     padding: 5px;
-}
-
-
-/*------------------------------------------------
-Calendar Styles
--------------------------------------------------*/
-.display-calendar{
-    width: 70%;
-    text-align: -webkit-center;
-    text-align: -moz-center;
-    height: 80vh;
-    overflow-y: scroll;
-    overflow:auto;
 }
 
 .month-container {
@@ -143,14 +135,6 @@ Calendar Styles
     line-height: 25px;
 }
 
-/*.month-container .daysofweek:first-child{
-    
-}
-
-.month-container .daysofweek{
-    display: none;
-}*/
-
 .weekdays {    
     color: black;
     background-color: #4cb24c;
@@ -170,7 +154,9 @@ Calendar Styles
 }
 
 
-/*------------------------------------------ warnings ---------------------------*/
+/* --------------------------------------------------------------------------
+                            Warnings and errors                             
+-----------------------------------------------------------------------------*/
 
 .warning-container{
     border: 2px solid yellow;
@@ -180,4 +166,9 @@ Calendar Styles
     text-align: left;
     margin-bottom: 10px;
     color: yellow;
+}
+
+.warning-container p{
+    display: list-item;
+    margin-left: 15px;
 }
