@@ -4,15 +4,19 @@
     padding: 0;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
+    font-family: Verdana, Geneva, sans-serif;
 }
 
 html {
   text-align: center;
+    height: 100vh;
 }
 
 body{
     width: 100%;
-    
+    height: 100vh;
+    overflow-y: hidden;
+    font-size: 14px;
 }
 
 .general-container{
@@ -22,21 +26,27 @@ body{
 
 /* title */
 
-h1{
+h1,footer{
     margin: 20px 0px;
-    background-color: lightblue;
+    background-color: #0f5b01;
+    color:white;
 }
+
 
 .content{
     display: -webkit-box;
+    background-color: #e8ffe4;
 }
 /* Input data box */
 
 .input-data {
     margin-bottom: 30px;
-    border: 1px solid red;
+    border: 1px solid #5dff3f;
     width: 30%;
     padding: 10px;
+    height: 80vh;
+    background-color: #0a3a00;
+    color: white;
 }
 
 .input-data label{
@@ -47,9 +57,43 @@ h1{
     margin-bottom: 10px;
 }
 
+input{
+    width: 100%;
+    padding: 5px 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
 input[type=text]{
     text-transform:uppercase;
 }
+
+input[type=button]{
+    line-height: 25px;
+    color: rgb(255, 155, 21);
+    background-color: rgba(58, 252, 0, 0.24);
+    border-radius: 15px;
+    padding: 5px;
+    width: 150px;
+    border: 2px solid rgb(216, 124, 0);
+    font-weight: 900;
+} 
+
+
+
+input[type=button]:hover{
+    line-height: 25px;
+    color: white;
+    background-color: rgb(216, 124, 0);
+    border-radius: 15px;
+    padding: 5px;
+    width: 150px;
+    border: 2px solid #ebeb69;
+    font-weight: 900;
+} 
 
 /* days header */
 
@@ -67,8 +111,12 @@ input[type=text]{
 Calendar Styles
 -------------------------------------------------*/
 .display-calendar{
-    width: 65%;
+    width: 70%;
     text-align: -webkit-center;
+    text-align: -moz-center;
+    height: 80vh;
+    overflow-y: scroll;
+    overflow:auto;
 }
 
 .month-container {
@@ -84,8 +132,7 @@ Calendar Styles
 }
 
 .month-label {
-    background-color: #c7e2c7;
-    font: bold 14px verdana sans-serif;
+    background-color: #abe6ab;
     color: black;
 }
 
@@ -104,17 +151,10 @@ Calendar Styles
     display: none;
 }*/
 
-.weekdays {
-    font-size: 12px;
-    font-family: verdana;
+.weekdays {    
     color: black;
     background-color: #4cb24c;
     padding: 2px;
-}
-
-.weekdays #today {
-    font-weight: bold;
-    color: red;
 }
 
 .weekend {
@@ -127,4 +167,17 @@ Calendar Styles
 
 .invalid-day {
     background-color: #b4b2b2;
+}
+
+
+/*------------------------------------------ warnings ---------------------------*/
+
+.warning-container{
+    border: 2px solid yellow;
+    padding: 10px;
+    display: none;
+    border-radius: 5px;
+    text-align: left;
+    margin-bottom: 10px;
+    color: yellow;
 }
