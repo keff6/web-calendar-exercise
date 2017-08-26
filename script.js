@@ -6,11 +6,12 @@ var ModelController = (function () {
     const monthsArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
         limitDraw = [8, 15, 22, 28, 36, 43];
 
-    var monthDimension = [31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    var monthDimension = [31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+         paintCalendarDays = true;
+    
     var data = {
         htmlToDraw: ""
     };
-
 
     // Consumes REST api synchronous
     function getMonthHolidays(y, m, c) {
@@ -93,7 +94,10 @@ var ModelController = (function () {
         htmlText += '<div><table cols="7" cellpadding="0" cellspacing="0" class="month-container"><tr align="center" class="daysofweek">';
 
         // Calendar days labe header
-        for (var s = 0; s < 7; s++) htmlText += '<td class="day-label">' + "SMTWTFS".substr(s, 1) + '</td>';
+        if(paintCalendarDays){
+            for (var s = 0; s < 7; s++) htmlText += '<td class="day-label">' + "SMTWTFS".substr(s, 1) + '</td>';
+            paintCalendarDays = false;
+        }   
 
         htmlText += rowClosing;
 
