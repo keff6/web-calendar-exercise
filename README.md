@@ -1,6 +1,5 @@
-## web-calendar-exercise
+# web-calendar-exercise
 _______________________________________________________
-
 ##Description
 
 Web calendar generated to match the input parameters.
