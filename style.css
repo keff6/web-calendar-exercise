@@ -43,7 +43,6 @@ h1,footer{
                                 Input data box                             
 -----------------------------------------------------------------------------*/
 .input-data {
-    margin-bottom: 30px;
     border: 1px solid #5dff3f;
     width: 30%;
     padding: 10px;
@@ -94,6 +93,7 @@ input[type=text]{
                                 Calendar Styles                             
 -----------------------------------------------------------------------------*/
 .display-calendar{
+    padding: 15px 0;
     width: 70%;
     text-align: -webkit-center;
     text-align: -moz-center;
@@ -153,7 +153,6 @@ input[type=text]{
     background-color: #b4b2b2;
 }
 
-
 /* --------------------------------------------------------------------------
                             Warnings and errors                             
 -----------------------------------------------------------------------------*/
@@ -171,4 +170,45 @@ input[type=text]{
 .warning-container p{
     display: list-item;
     margin-left: 15px;
+}
+
+/* --------------------------------------------------------------------------
+                            Media Queries                             
+-----------------------------------------------------------------------------*/
+
+@media(max-width: 820px) {
+    .general-container{
+        width: 100%;
+        height: inherit;
+    }
+    .content{
+        display: block;
+        height: inherit;
+    }
+    .general-container{
+        width: 100%;
+    }
+    .content{
+        display: block;
+    }
+    h1,footer{
+        margin: 0;
+    }
+    footer{
+        position: absolute;
+        width: inherit;
+        bottom: 0;
+    }
+    .input-data {
+        width: 100%;
+        height: auto;
+    }
+    .display-calendar{
+        width: 100%;
+        height: 60%;
+    }
+    .display-calendar{
+        width: 100%;
+        height: 60%;
+    }
 }

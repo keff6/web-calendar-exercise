@@ -14,9 +14,10 @@ var ModelController = (function () {
     };
 
     // Consumes REST api synchronous
-    function getMonthHolidays(y, m, c) {
+    function getMonthHolidays(y, m, c = 'US') {
 
-        var APIurl = "https://holidayapi.com/v1/holidays?country=" + c + "&year=" + y + "&month=" + m + "&key=d7067658-2852-4cb4-b0df-56daac7cbf80";
+        var API_KEY = 'e33c311e-3ee8-41ba-a7b3-799fb453c8cc';
+        var APIurl = `https://holidayapi.com/v1/holidays?country=${c}&year=${y}&month=${m}&key=${API_KEY}`;
 
         var xhr = new XMLHttpRequest();
         xhr.open('GET', APIurl, false);
@@ -88,12 +89,12 @@ var ModelController = (function () {
             rowClosing = '</tr><tr align="center">',
             cellValue, htmlText;
 
-        getMonthHolidays(year, month);
+        getMonthHolidays(year, month, countryCode);
 
 
         htmlText += '<div><table cols="7" cellpadding="0" cellspacing="0" class="month-container"><tr align="center" class="daysofweek">';
 
-        // Calendar days labe header
+        // Calendar days label header
         if(paintCalendarDays){
             for (var s = 0; s < 7; s++) htmlText += '<td class="day-label">' + "SMTWTFS".substr(s, 1) + '</td>';
             paintCalendarDays = false;
